@@ -8,47 +8,110 @@
 import UIKit
 
 class ViewController: UIViewController {
-    @IBOutlet var redcolorView: UIView!
-    @IBOutlet var yellowcolorView: UIView!
-    @IBOutlet var greencolorView: UIView!
+
+    @IBOutlet var redColorView: UIView!
+    @IBOutlet var greenColorView: UIView!
+    @IBOutlet var yellowColorView: UIView!
     
-    @IBOutlet var startButton: UIButton!
+    @IBOutlet var startButtonView: UIButton!
     
+    private enum CurrentLight {
+        case red, yellow, green
+    }
+    
+    private var currentLight = CurrentLight.red
+    private var lightIsOn: CGFloat = 1
+    private var lightIsOff: CGFloat = 0.3
+  
     override func viewDidLoad() {
         super.viewDidLoad()
-        redcolorView.layer.cornerRadius = 50
-        redcolorView.backgroundColor = UIColor.red.withAlphaComponent(0.25)
-
-        yellowcolorView.layer.cornerRadius = 50
-        yellowcolorView.backgroundColor = UIColor.yellow.withAlphaComponent(0.25)
+        startButtonView.layer.cornerRadius = 10
         
-        greencolorView.layer.cornerRadius = 50
-        greencolorView.backgroundColor = UIColor.green.withAlphaComponent(0.25)
+        redColorView.alpha = lightIsOn
+        yellowColorView.alpha = lightIsOff
+        greenColorView.alpha = lightIsOff
         
-        startButton.tintColor = UIColor.blue
     }
+    override func viewWillLayoutSubviews() {
+        redColorView.layer.cornerRadius = redColorView.frame.width/2
+        yellowColorView.layer.cornerRadius = yellowColorView.frame.width/2
+        greenColorView.layer.cornerRadius = greenColorView.frame.width/2
+    }
+    
 
-    @IBAction func startAppButton(_ sender: UIButton) {
-        switch UIColor() {
+    @IBAction func setupButton() {
+        if startButtonView.currentTitle == "Start" {
+            startButtonView.setTitle("NEXT", for: .normal)
+        }
+        
+        switch currentLight {
         case .red:
-            redcolorView.backgroundColor = UIColor.red.withAlphaComponent(1)
+            greenColorView.alpha = lightIsOff
+            redColorView.alpha = lightIsOn
+            currentLight = .yellow
         case .yellow:
-            yellowcolorView.backgroundColor = UIColor.yellow.withAlphaComponent(1)
+            redColorView.alpha = lightIsOff
+            yellowColorView.alpha = lightIsOn
+            currentLight = .green
         case .green:
-            greencolorView.backgroundColor = UIColor.green.withAlphaComponent(1)
-        default:
-            print("error")
+            yellowColorView.alpha = lightIsOff
+            greenColorView.alpha = lightIsOn
+            currentLight = .red
+            
         }
     }
+    
+    }
 
-}
+//private var currentLight = CurrentLight.red
+//private let lightIsOn: CGFloat = 1
+//private let lightIsOff: CGFloat = 0.3
+//
+//override func viewDidLoad() {
+//    super.viewDidLoad()
+//    startButton.layer.cornerRadius = 10
+//
+//    redLight.alpha = lightIsOff
+//    yellowLight.alpha = lightIsOff
+//    greenLight.alpha = lightIsOff
+//
+//    print("Размер стороны, доступный в методе viewDidLoad: \(redLight.frame.height)")
+//}
+//
+//override func viewWillLayoutSubviews() {
+//    redLight.layer.cornerRadius = redLight.frame.width / 2
+//    yellowLight.layer.cornerRadius = redLight.frame.width / 2
+//    greenLight.layer.cornerRadius = redLight.frame.width / 2
+//
+//    print("Размер стороны, доступный в методе viewWillLayoutSubviews: \(redLight.frame.height)")
+//}
+//
+//@IBAction func startButtonPressed() {
+//    if startButton.currentTitle == "START" {
+//        startButton.setTitle("NEXT", for: .normal)
+//    }
+//
+//    switch currentLight {
+//    case .red:
+//        greenLight.alpha = lightIsOff
+//        redLight.alpha = lightIsOn
+//        currentLight = .yellow
+//    case .yellow:
+//        redLight.alpha = lightIsOff
+//        yellowLight.alpha = lightIsOn
+//        currentLight = .green
+//    case .green:
+//        greenLight.alpha = lightIsOn
+//        yellowLight.alpha = lightIsOff
+//        currentLight = .red
+//    }
+//}
+//}
+//
+//// MARK: - CurrentLight
+//extension ViewController {
+//private enum CurrentLight {
+//    case red, yellow, green
+//}
+//}
 
-//        switch UIButton(){
-//        case redcolorView:
-//            redcolorView.backgroundColor = UIColor.red.withAlphaComponent(1)
-//        case yellowcolorView:
-//            yellowcolorView.backgroundColor = UIColor.yellow.withAlphaComponent(1)
-//        case greencolorView:
-//            greencolorView.backgroundColor = UIColor.green.withAlphaComponent(1)
-//        default:
-//            print("error")
